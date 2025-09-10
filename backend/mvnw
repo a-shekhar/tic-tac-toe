@@ -1,0 +1,17 @@
+#!/bin/sh
+# Apache Maven Wrapper startup script
+# Downloads the Maven Wrapper JAR if not present and delegates to it.
+set -e
+WRAPPER_DIR="$(dirname "$0")/.mvn/wrapper"
+JAR="$WRAPPER_DIR/maven-wrapper.jar"
+PROPS="$WRAPPER_DIR/maven-wrapper.properties"
+
+if [ ! -f "$JAR" ]; then
+  echo "Downloading Maven Wrapper JAR..."
+  URL=$(grep wrapperUrl "$PROPS" | sed -e 's/^wrapperUrl=//')
+  mkdir -p "$WRAPPER_DIR"
+  curl -fsSL "$URL" -o "$JAR"
+fi
+
+JAVA_EXE="${JAVA_HOME:+$JAVA_HOME/bin/}java"
+exec "$JAVA_EXE" -jar "$JAR" "$@"
