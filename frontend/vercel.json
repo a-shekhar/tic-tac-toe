@@ -1,11 +1,12 @@
 {
+  "version": 2,
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "https://tic-tac-toe-bay-ten-81.vercel.app/api/$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api|.*\\..*).*)",
       "destination": "/"
     }
   ]
