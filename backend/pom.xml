@@ -4,55 +4,78 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!-- Spring Boot parent manages plugin & dep versions -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.0.0-M2</version>
+    <relativePath/>
+  </parent>
+
   <groupId>com.example</groupId>
   <artifactId>tictactoe</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>tictactoe</name>
   <description>TicTacToe Spring Boot API</description>
+
   <properties>
     <java.version>21</java.version>
-    <spring.boot.version>4.0.0-M2</spring.boot.version>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring.boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
+    <!-- Web / REST -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+
+    <!-- Bean validation (for request DTOs) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
+
+    <!-- Security (so we can disable CSRF & configure CORS centrally) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <!-- (Optional) For nicer JSON timestamps, etc.
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    -->
   </dependencies>
 
   <build>
     <plugins>
+      <!-- Builds an executable Spring Boot fat JAR with proper manifest -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
-    
+
+      <!-- Compile for Java 21 and keep parameter names for @PathVariable, etc. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
           <release>${java.version}</release>
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
-    
     </plugins>
   </build>
 </project>

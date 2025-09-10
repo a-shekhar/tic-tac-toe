@@ -3,7 +3,6 @@ package com.example.tictactoe;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -26,20 +23,6 @@ public class GameController {
 
     public GameController(GameService service) {
         this.service = service;
-    }
-
-    // CORS for dev
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:5173", "https://tic-tac-toe-bay-ten-81.vercel.app/")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowCredentials(true);
-            }
-        };
     }
 
     @PostMapping
