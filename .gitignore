@@ -2,3 +2,4 @@
 /frontend/target
 /frontend/node_modules
 /backend/target
+/react-only/node_modules
